@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bk3"
+    tools:context=".SelectActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/container">
+        <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/imview1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@mipmap/firstfloor" />
+
+        <ImageButton
+            android:id="@+id/lecQuaters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="614dp"
+            android:layout_marginTop="335dp"
+            android:background="@null"
+            android:src="@mipmap/notselected" />
+
+        <ImageButton
+            android:id="@+id/profQuaters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="502dp"
+            android:layout_marginTop="279dp"
+            android:background="@null"
+            android:src="@mipmap/notselected" />
+
+        <ImageButton
+            android:id="@+id/ComputerLab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="599dp"
+            android:layout_marginTop="139dp"
+            android:background="@null"
+            android:src="@mipmap/notselected" />
+
+        <ImageButton
+            android:id="@+id/deptOffice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="231dp"
+            android:layout_marginStart="614dp"
+            android:background="@null"
+            android:src="@mipmap/notselected" />
+
+        <ImageButton
+            android:id="@+id/ConferenceRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="256dp"
+            android:layout_marginEnd="574dp"
+            android:background="@null"
+            android:src="@mipmap/notselected" />
+    </RelativeLayout>
+
+
+
+</LinearLayout>
