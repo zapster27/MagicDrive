@@ -36,6 +36,7 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
     private ScaleGestureDetector mScaleGestureDetector;
     private float mScaleFactor = 1.0f;
     int ind;
+    //this is in branch
     private ImageButton compLab,depOffice,lecRooms,profRooms,confRoom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
