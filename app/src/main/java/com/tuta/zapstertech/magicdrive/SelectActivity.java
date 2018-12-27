@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Locale;
 
-public class SelectActivity extends Activity implements TextToSpeech.OnInitListener,View.OnClickListener {
+public class SelectActivity extends Activity implements TextToSpeech.OnInitListener {
     TextToSpeech mTTS = null;
     private final int ACT_CHECK_TTS_DATA = 1000;
     private RelativeLayout container;
@@ -32,12 +33,16 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
     static String IPAddress="192.168.43.233";
     String message;
     private int currentY;
-    final static String[] locs={"complab","profQs","lecQs","office","confRoom"};
     private ScaleGestureDetector mScaleGestureDetector;
     private float mScaleFactor = 1.0f;
     int ind;
+
+    ImageView imvv;
+    private static final String tag="out_put";
+    float X=0,Y=0;
+    String MSG;
+    boolean clicked=false;
     //this is in branch
-    private ImageButton compLab,depOffice,lecRooms,profRooms,confRoom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,22 +51,22 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_select);
         mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-        compLab=findViewById(R.id.ComputerLab);
-        compLab.setImageResource(R.mipmap.notselected);
-        compLab.setOnClickListener(SelectActivity.this);
-
-        depOffice=findViewById(R.id.deptOffice);
-        depOffice.setImageResource(R.mipmap.notselected);
-        depOffice.setOnClickListener(SelectActivity.this);
-        lecRooms=findViewById(R.id.lecQuaters);
-        lecRooms.setImageResource(R.mipmap.notselected);
-        lecRooms.setOnClickListener(SelectActivity.this);
-        profRooms=findViewById(R.id.profQuaters);
-        profRooms.setImageResource(R.mipmap.notselected);
-        profRooms.setOnClickListener(SelectActivity.this);
-        confRoom=findViewById(R.id.ConferenceRoom);
-        confRoom.setImageResource(R.mipmap.notselected);
-        confRoom.setOnClickListener(SelectActivity.this);
+        imvv=findViewById(R.id.imview1);
+        imvv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if(event.getAction())
+                float x = event.getX();
+                float y = event.getY();
+                X=x;
+                Y=y;
+                String msg = String.format("Coordinates : (%f,%f)",x,y);
+                MSG=msg;
+                clicked=!clicked;
+                Toast.makeText(SelectActivity.this,MSG,Toast.LENGTH_LONG);
+                return false;
+            };
+        });
 
         // Check to see if we have TTS voice data
         Intent ttsIntent = new Intent();
@@ -162,70 +167,6 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
     }
 
 
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()){
-            case R.id.ComputerLab:
-                if(ind!=0) {
-                    confirmDestination("Computer Lab");
-                    compLab.setImageResource(R.mipmap.select);
-                    depOffice.setImageResource(R.mipmap.notselected);
-                    lecRooms.setImageResource(R.mipmap.notselected);
-                    profRooms.setImageResource(R.mipmap.notselected);
-                    confRoom.setImageResource(R.mipmap.notselected);
-                    LocationUpdate(ind);
-                }
-                break;
-            case R.id.deptOffice:
-                if(ind!=3) {
-                    confirmDestination("Department Office");
-                    depOffice.setImageResource(R.mipmap.select);
-                    compLab.setImageResource(R.mipmap.notselected);
-                    lecRooms.setImageResource(R.mipmap.notselected);
-                    profRooms.setImageResource(R.mipmap.notselected);
-                    confRoom.setImageResource(R.mipmap.notselected);
-                    LocationUpdate(ind);
-                }
-                break;
-
-            case R.id.lecQuaters:
-                if(ind!=2) {
-                    confirmDestination("Lecturer Rooms");
-                    lecRooms.setImageResource(R.mipmap.select);
-                    depOffice.setImageResource(R.mipmap.notselected);
-                    compLab.setImageResource(R.mipmap.notselected);
-                    profRooms.setImageResource(R.mipmap.notselected);
-                    confRoom.setImageResource(R.mipmap.notselected);
-                    LocationUpdate(ind);
-                }
-                break;
-
-            case R.id.profQuaters:
-                if(ind!=1) {
-                    confirmDestination("Professor's Rooms");
-                    profRooms.setImageResource(R.mipmap.select);
-                    depOffice.setImageResource(R.mipmap.notselected);
-                    lecRooms.setImageResource(R.mipmap.notselected);
-                    compLab.setImageResource(R.mipmap.notselected);
-                    confRoom.setImageResource(R.mipmap.notselected);
-                    LocationUpdate(ind);
-                }
-                break;
-
-            case R.id.ConferenceRoom:
-                if(ind!=4) {
-                    confirmDestination("Head of department office and Conference room");
-                    confRoom.setImageResource(R.mipmap.select);
-                    depOffice.setImageResource(R.mipmap.notselected);
-                    lecRooms.setImageResource(R.mipmap.notselected);
-                    profRooms.setImageResource(R.mipmap.notselected);
-                    compLab.setImageResource(R.mipmap.notselected);
-                    LocationUpdate(ind);
-                }
-                break;
-        }
-    }
 
     private void confirmDestination(final String Destination){
         AlertDialog d= new AlertDialog.Builder(SelectActivity.this)
@@ -257,19 +198,19 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
     private void LocationUpdate(int ind){
         switch(ind){
             case 0:
-                compLab.setImageResource(R.mipmap.now);
+
                 break;
             case 1:
-                profRooms.setImageResource(R.mipmap.now);
+
                 break;
             case 2:
-                lecRooms.setImageResource(R.mipmap.now);
+
                 break;
             case 3:
-                depOffice.setImageResource(R.mipmap.now);
+
                 break;
             case 4:
-                confRoom.setImageResource(R.mipmap.now);
+
                 break;
         }
     }
