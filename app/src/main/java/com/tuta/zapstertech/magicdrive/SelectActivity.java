@@ -48,6 +48,7 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
         compLab=findViewById(R.id.ComputerLab);
         compLab.setImageResource(R.mipmap.notselected);
         compLab.setOnClickListener(SelectActivity.this);
+
         depOffice=findViewById(R.id.deptOffice);
         depOffice.setImageResource(R.mipmap.notselected);
         depOffice.setOnClickListener(SelectActivity.this);
@@ -93,6 +94,18 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
             }
         }
         return true;
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector){
+            mScaleFactor *= scaleGestureDetector.getScaleFactor();
+            mScaleFactor = Math.max(0.1f,
+                    Math.min(mScaleFactor, 10.0f));
+            container.setScaleX(mScaleFactor);
+            container.setScaleY(mScaleFactor);
+            return true;
+        }
     }
 
     private void saySomething(String text, int qmode) {
@@ -147,14 +160,6 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        if (mTTS != null) {
-            mTTS.stop();
-            mTTS.shutdown();
-        }
-        super.onDestroy();
-    }
 
     @Override
     public void onClick(View v) {
@@ -247,17 +252,6 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
         d.show();
 
     }
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector scaleGestureDetector){
-            mScaleFactor *= scaleGestureDetector.getScaleFactor();
-            mScaleFactor = Math.max(0.1f,
-                    Math.min(mScaleFactor, 10.0f));
-            container.setScaleX(mScaleFactor);
-            container.setScaleY(mScaleFactor);
-            return true;
-        }
-    }
 
     private void LocationUpdate(int ind){
         switch(ind){
@@ -278,6 +272,7 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
                 break;
         }
     }
+
     private class send extends AsyncTask<Void,Void,Void> {
         Socket s;
         PrintWriter pw;
@@ -314,5 +309,14 @@ public class SelectActivity extends Activity implements TextToSpeech.OnInitListe
             super.onPostExecute(aVoid);
             dialog.dismiss();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mTTS != null) {
+            mTTS.stop();
+            mTTS.shutdown();
+        }
+        super.onDestroy();
     }
 }
